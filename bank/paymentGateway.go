@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) (*UiPaymentGateway, int, error) {
+func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) (*CheckOutResponse, int, error) {
 	client := http.Client{}
 	url := fmt.Sprintf("%s/api/v1/international/cashier/create", baseUrl)
 	method := "POST"
@@ -60,7 +60,7 @@ func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, 
 	status := resp.StatusCode
 	fmt.Println(string(resp_body))
 
-	var response UiPaymentGateway
+	var response CheckOutResponse
 	json.Unmarshal(resp_body, &response)
 	fmt.Printf("%+v\n", response)
 

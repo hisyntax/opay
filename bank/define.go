@@ -1,30 +1,30 @@
 package bank
 
-type PayWithBankCard struct {
-	Reference         string `json:"reference"`
-	Amount            string `json:"amount"`
-	Currency          string `json:"currency"`
-	Country           string `json:"country"`
-	PayType           string `json:"payType"`
-	FirstName         string `json:"firstName"`
-	LastName          string `json:"lastName"`
-	CustomerEmail     string `json:"customerEmail"`
-	CardNumber        string `json:"cardNumber"`
-	CardDateMonth     string `json:"cardDateMonth"`
-	CardDateYear      string `json:"cardDateYear"`
-	CardCVC           string `json:"cardCVC"`
-	Return3dsUrl      string `json:"return3dsUrl"`
-	BankAccountNumber string `json:"bankAccountNumber"`
-	BankCode          string `json:"bankCode"`
-	Reason            string `json:"reason"`
-	CallbackUrl       string `json:"callbackUrl"`
-	ExpireAt          string `json:"expireAt"`
-	BillingZip        string `json:"billingZip"`
-	BillingCity       string `json:"billingCity"`
-	BillingAddress    string `json:"billingAddress"`
-	BillingState      string `json:"billingState"`
-	BillingCountry    string `json:"billingCountry"`
-}
+// type PayWithBankCard struct {
+// 	Reference         string `json:"reference"`
+// 	Amount            string `json:"amount"`
+// 	Currency          string `json:"currency"`
+// 	Country           string `json:"country"`
+// 	PayType           string `json:"payType"`
+// 	FirstName         string `json:"firstName"`
+// 	LastName          string `json:"lastName"`
+// 	CustomerEmail     string `json:"customerEmail"`
+// 	CardNumber        string `json:"cardNumber"`
+// 	CardDateMonth     string `json:"cardDateMonth"`
+// 	CardDateYear      string `json:"cardDateYear"`
+// 	CardCVC           string `json:"cardCVC"`
+// 	Return3dsUrl      string `json:"return3dsUrl"`
+// 	BankAccountNumber string `json:"bankAccountNumber"`
+// 	BankCode          string `json:"bankCode"`
+// 	Reason            string `json:"reason"`
+// 	CallbackUrl       string `json:"callbackUrl"`
+// 	ExpireAt          string `json:"expireAt"`
+// 	BillingZip        string `json:"billingZip"`
+// 	BillingCity       string `json:"billingCity"`
+// 	BillingAddress    string `json:"billingAddress"`
+// 	BillingState      string `json:"billingState"`
+// 	BillingCountry    string `json:"billingCountry"`
+// }
 
 type UiPaymentGateway struct {
 	Country     string   `json:"country"`
@@ -53,4 +53,24 @@ type UserInfo struct {
 type Product struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
+}
+
+type CheckOutResponse struct {
+	Code    string   `json:"code"`
+	Message string   `json:"message"`
+	Data    DataBody `json:"data"`
+}
+
+type DataBody struct {
+	Reference  string  `json:"reference"`
+	OrderNo    string  `json:"orderNo"`
+	CashierUrl string  `json:"cashierUrl"`
+	Status     string  `json:"status"`
+	Amount     Amount  `json:"amount"`
+	Vat        VatBody `json:"vat"`
+}
+
+type VatBody struct {
+	Total    int    `json:"total"`
+	Currency string `json:"currency"`
 }
