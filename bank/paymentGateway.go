@@ -8,9 +8,9 @@ import (
 	"net/http"
 )
 
-func BankCardTransaction(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) {
+func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) {
 	client := http.Client{}
-	url := fmt.Sprintf("%s/", baseUrl)
+	url := fmt.Sprintf("%s/api/v1/international/cashier/create", baseUrl)
 	method := "POST"
 
 	payload := UiPaymentGateway{}

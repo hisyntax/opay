@@ -1,7 +1,5 @@
 package bank
 
-// body := []byte("{\n  \"amount\": 10,\n  \"reference\": \"reference12934\",\n  \"narration\": \"911 Transaction\",\n  \"bankCode\": \"058\",\n  \"accountNumber\": \"0111946768\",\n  \"currency\": \"NGN\",\n  \"walletId\": \"4794983C91374AD6B3ECD76F2BEA296D\"\n}")
-
 type PayWithBankCard struct {
 	Reference         string `json:"reference"`
 	Amount            string `json:"amount"`
@@ -56,19 +54,3 @@ type Product struct {
 	Description string `json:"description"`
 	Name        string `json:"name"`
 }
-
-// {
-// 	"reference": "test_20191123132233",
-// 	"mchShortName": "Jerry's shop",
-// 	"productName": "Apple AirPods Pro",
-// 	"productDesc": "The best wireless earphone in history",
-// 	"userPhone": "+2349876543210",
-// 	"userRequestIp": "123.123.123.123",
-// 	"amount": "100",
-// 	"currency": "NGN",
-// 	"payTypes": ["BalancePayment", "BonusPayment", "OWealth"],
-// 	"payMethods": ["account", "qrcode", "bankCard", "bankAccount", "bankTransfer", "bankUSSD"],
-// 	"callbackUrl": "https://you.domain.com/callbackUrl",
-// 	"returnUrl": "https://you.domain.com/returnUrl",
-// 	"expireAt": "10"
-//   }
