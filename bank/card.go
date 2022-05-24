@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -16,22 +15,23 @@ func BankCardTransaction(baseUrl, userEmail, userID, userName, merchantId, publi
 
 	payload := UiPaymentGateway{}
 
-	///////////////////////////////////////
-	payload.Country = "NG"
+	// request payload
+	payload.Country = "NG" // by default country is set
 	payload.Reference = ref
 	payload.Amount.Total = amount
 	payload.Amount.Currency = "NGN"
 	payload.ReturnUrl = returnUrl
 	payload.CallbackUrl = callBackUrl
 	payload.CancelUrl = cancelUrl
-	payload.ExpireAt = expireAt
+	payload.ExpireAt = expireAt // 1 = 1 minute while 10 = 10 minutes
 	payload.UserInfo.UserEmail = userEmail
-	payload.UserInfo.UserId = userID
+	payload.UserInfo.UserId = userID //this is an optional field as it can be an empty string like so ""
 	payload.UserInfo.UserMobile = userPhone
 	payload.UserInfo.UserName = userName
 	payload.Product.Name = productName
 	payload.Product.Description = productDesc
-	payload.PayMethod = "BankCard"
+	payload.PayMethod = "" //this is an optional field as it would return all the payment options to the user if not set
+	///////////////////////////////////////
 
 	jsonReq, _ := json.Marshal(payload)
 
@@ -42,9 +42,7 @@ func BankCardTransaction(baseUrl, userEmail, userID, userName, merchantId, publi
 
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("MerchantId", merchantId)
-	fmt.Println(merchantId)
 	token := fmt.Sprintf("Bearer %s", publicKey)
-	fmt.Println(token)
 	req.Header.Add("Authorization", token)
 
 	resp, respErr := client.Do(req)
@@ -56,53 +54,9 @@ func BankCardTransaction(baseUrl, userEmail, userID, userName, merchantId, publi
 	resp_body, _ := ioutil.ReadAll(resp.Body)
 
 	fmt.Println(resp.StatusCode)
-	fmt.Println("response body...")
-	fmt.Println(resp.Body)
-	fmt.Println("output...")
 	fmt.Println(string(resp_body))
-}
-
-func BankCard(baseUrl, merchantId, publicKey, ref, mchShortName, productName, productDesc, userPhone, userRequestIp, amount, callBackUrl, returnUrl, expireAt string) {
-	payload := UiPaymentGateway{}
-	//add all the fields in the payload
-	//
-	// payload.Reference = ref
-	// payload.MchShortName = mchShortName
-	// payload.ProductName = productName
-	// payload.ProductDesc = productDesc
-	// payload.UserPhone = userPhone
-	// payload.UserRequestIp = userRequestIp
-	// payload.Amount = amount
-	// payload.Currency = "NGN"
-	// payload.CallbackUrl = callBackUrl
-	// payload.ReturnUrl = returnUrl
-	// payload.ExpireAt = expireAt
-	// payload.PayTypes = []string{"BalancePayment", "BonusPayment", "OWealth"}
-	// payload.PayMethods = []string{"account", "qrcode", "bankCard", "bankAccount", "bankTransfer", "bankUSSD"}
-	fmt.Println(payload)
-
-	jsonReq, _ := json.Marshal(payload)
-	url := fmt.Sprintf("%s/api/v3/cashier/initialize", baseUrl)
-	contentType := "application/json"
-	resp, err := http.Post(url, contentType, bytes.NewBuffer(jsonReq))
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	resp.Header.Add("MerchantId", merchantId)
-	fmt.Println(merchantId)
-	token := fmt.Sprintf("Bearer %s", publicKey)
-	fmt.Println(token)
-	resp.Header.Add("Authorization", token)
-
-	defer resp.Body.Close()
-	bodyBytes, _ := ioutil.ReadAll(resp.Body)
-	//convert response body to string
-	bodyString := string(bodyBytes)
-	fmt.Println(bodyString)
-	fmt.Println()
 
 	var response UiPaymentGateway
-	json.Unmarshal(bodyBytes, &response)
+	json.Unmarshal(resp_body, &response)
 	fmt.Printf("%+v\n", response)
 }
