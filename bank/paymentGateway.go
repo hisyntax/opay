@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) {
+func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) (*UiPaymentGateway, int, error) {
 	client := http.Client{}
 	url := fmt.Sprintf("%s/api/v1/international/cashier/create", baseUrl)
 	method := "POST"
@@ -33,11 +33,14 @@ func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, 
 	payload.PayMethod = "" //this is an optional field as it would return all the payment options to the user if not set
 	///////////////////////////////////////
 
-	jsonReq, _ := json.Marshal(payload)
+	jsonReq, err := json.Marshal(payload)
+	if err != nil {
+		return nil, 0, err
+	}
 
 	req, reqErr := http.NewRequest(method, url, bytes.NewReader(jsonReq))
 	if reqErr != nil {
-		fmt.Println(reqErr)
+		return nil, 0, reqErr
 	}
 
 	req.Header.Add("Content-Type", "application/json")
@@ -47,16 +50,19 @@ func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, 
 
 	resp, respErr := client.Do(req)
 	if respErr != nil {
-		fmt.Println(respErr)
+		return nil, 0, respErr
 	}
 
 	defer resp.Body.Close()
 	resp_body, _ := ioutil.ReadAll(resp.Body)
 
 	fmt.Println(resp.StatusCode)
+	status := resp.StatusCode
 	fmt.Println(string(resp_body))
 
 	var response UiPaymentGateway
 	json.Unmarshal(resp_body, &response)
 	fmt.Printf("%+v\n", response)
+
+	return &response, status, nil
 }
