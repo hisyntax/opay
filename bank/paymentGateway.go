@@ -10,7 +10,7 @@ import (
 
 func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, publicKey, ref, productName, productDesc, userPhone, callBackUrl, returnUrl, cancelUrl string, amount, expireAt int) (*CheckOutResponse, int, error) {
 	client := http.Client{}
-	url := fmt.Sprintf("%s/api/v1/international/cashier/create", baseUrl)
+	url := fmt.Sprintf("%s/international/cashier/create", baseUrl)
 	method := "POST"
 
 	payload := UiPaymentGateway{}
