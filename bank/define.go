@@ -74,3 +74,8 @@ type VatBody struct {
 	Total    int    `json:"total"`
 	Currency string `json:"currency"`
 }
+
+type TransactionStatusRequest struct {
+	Reference string `json:"reference"`
+	Country   string `json:"country"`
+}

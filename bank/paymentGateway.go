@@ -66,3 +66,37 @@ func InitializePaymentGateway(baseUrl, userEmail, userID, userName, merchantId, 
 
 	return &response, status, nil
 }
+
+func GetTransactionStatus(baseUrl, merchantId, signature, ref string) {
+	client := http.Client{}
+	url := fmt.Sprintf("%s/international/cashier/create", baseUrl)
+	method := "POST"
+
+	payload := TransactionStatusRequest{}
+	payload.Country = "NGN"
+	payload.Reference = ref
+	jsonReq, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	req, err := http.NewRequest(method, url, bytes.NewReader(jsonReq))
+
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("MerchantId", merchantId)
+	token := fmt.Sprintf("Bearer %s", signature)
+	req.Header.Add("", token)
+
+	resp, respErr := client.Do(req)
+	if respErr != nil {
+		fmt.Println(respErr)
+	}
+
+	defer resp.Body.Close()
+	resp_body, _ := ioutil.ReadAll(resp.Body)
+
+	fmt.Println(resp.StatusCode)
+	// status := resp.StatusCode
+	fmt.Println(string(resp_body))
+
+}
