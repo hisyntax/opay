@@ -56,12 +56,12 @@ type Product struct {
 }
 
 type CheckOutResponse struct {
-	Code    string   `json:"code"`
-	Message string   `json:"message"`
-	Data    DataBody `json:"data"`
+	Code    string           `json:"code"`
+	Message string           `json:"message"`
+	Data    CheckOutDataBody `json:"data"`
 }
 
-type DataBody struct {
+type CheckOutDataBody struct {
 	Reference  string  `json:"reference"`
 	OrderNo    string  `json:"orderNo"`
 	CashierUrl string  `json:"cashierUrl"`
@@ -78,4 +78,19 @@ type VatBody struct {
 type TransactionStatusRequest struct {
 	Reference string `json:"reference"`
 	Country   string `json:"country"`
+}
+
+type TransactionStatusResponse struct {
+	Code    string         `json:"code"`
+	Message string         `json:"message"`
+	Data    StatusDataBody `json:"data"`
+}
+
+type StatusDataBody struct {
+	Reference  string  `json:"reference"`
+	OrderNo    string  `json:"orderNo"`
+	Status     string  `json:"status"`
+	Vat        VatBody `json:"vat"`
+	Amount     Amount  `json:"amount"`
+	CreateTime int     `json:"createTime"`
 }
