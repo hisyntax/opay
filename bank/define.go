@@ -50,3 +50,31 @@ type BankListDataBody struct {
 	Color                string `json:"color"`
 	IsSupportBankAccount bool   `json:"isSupportBankAccount"`
 }
+
+//bank transfer
+type TransferFund struct {
+	Reference string       `json:"reference"`
+	Amount    string       `json:"amount"`
+	Currency  string       `json:"currency"`
+	Country   string       `json:"country"`
+	Receiver  ReceiverBody `json:"receiver"`
+	Reason    string       `json:"reason"`
+}
+
+type ReceiverBody struct {
+	Name              string `json:"name"`
+	BankCode          string `json:"bankCode"`
+	BankAccountNumber string `json:"bankAccountNumber"`
+}
+
+type TransferFundResponse struct {
+	Reference         string `json:"reference"`
+	OrderNo           string `json:"orderNo"`
+	Amount            string `json:"amount"`
+	Currency          string `json:"currency"`
+	Fee               string `json:"fee"`
+	Status            string `json:"status"`
+	FailureReason     string `json:"failureReason"`
+	BankCode          string `json:"bankCode"`
+	BankAccountNumber string `json:"bankAccountNumber"`
+}
