@@ -1,3 +1,3 @@
 package bank
 
-func FuncDisburstMent() {}
+func FundDisburstMent() {}

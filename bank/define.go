@@ -31,6 +31,22 @@ type CheckOutDataBody struct {
 	Status     string `json:"status"`
 }
 
+//for the bank list in a country e.g Ng = banks in nigeria
 type Country struct {
 	CountryCode string `json:"countryCode"`
+}
+
+type BankListResponse struct {
+	Code    string             `json:"code"`
+	Message string             `json:"message"`
+	Data    []BankListDataBody `json:"data"`
+}
+
+type BankListDataBody struct {
+	Code                 string `json:"code"`
+	Name                 string `json:"name"`
+	Type                 string `json:"type"`
+	Icon                 string `json:"icon"`
+	Color                string `json:"color"`
+	IsSupportBankAccount bool   `json:"isSupportBankAccount"`
 }

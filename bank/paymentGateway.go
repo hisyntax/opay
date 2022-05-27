@@ -25,11 +25,13 @@ func InitializePaymentGateway(baseUrl, merchantId, publicKey, reference, mchShor
 	// payload.PayTypes = "BalancePayment"
 	// payload.PayMethods = "bankCard"
 	payload.PayTypes = []string{"BalancePayment", "BonusPayment", "OWealth"}
+	fmt.Println(payload.PayTypes)
 	payload.PayMethods = []string{"account", "qrcode", "bankCard", "bankAccount", "bankTransfer", "bankUSSD"}
 	payload.CallbackUrl = callbackUrl
 	payload.ReturnUrl = returnUrl
 	payload.ExpireAt = expireAt
-	jsonReq, jsonErr := json.Marshal(payload)
+
+	jsonReq, jsonErr := json.Marshal(&payload)
 	if jsonErr != nil {
 		fmt.Println(jsonErr)
 	}

@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func BankList(baseUrl, merchantId, publicKey string) {
+func BankList(baseUrl, merchantId, publicKey string) (*BankListResponse, int, error) {
 	client := http.Client{}
 	url := fmt.Sprintf("%s/banks", baseUrl)
 	method := "POST"
@@ -18,22 +18,22 @@ func BankList(baseUrl, merchantId, publicKey string) {
 
 	jsonReq, jsonErr := json.Marshal(&payload)
 	if jsonErr != nil {
-		fmt.Println(jsonErr)
+		return nil, 0, jsonErr
 	}
 
 	req, reqErr := http.NewRequest(method, url, bytes.NewBuffer(jsonReq))
 	if reqErr != nil {
-		fmt.Println(reqErr)
+		return nil, 0, reqErr
 	}
 
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("MerchantId", merchantId)
+	req.Header.Add("MerchantID", merchantId)
 	token := fmt.Sprintf("Bearer %s", publicKey)
 	req.Header.Add("Authorization", token)
 
 	resp, respErr := client.Do(req)
 	if respErr != nil {
-		fmt.Println(respErr)
+		return nil, 0, respErr
 	}
 
 	defer resp.Body.Close()
@@ -41,5 +41,9 @@ func BankList(baseUrl, merchantId, publicKey string) {
 
 	fmt.Println(resp.StatusCode)
 	fmt.Println(string(resp_body))
+	status := resp.StatusCode
+	var response BankListResponse
+	json.Unmarshal(resp_body, &response)
 
+	return &response, status, nil
 }
