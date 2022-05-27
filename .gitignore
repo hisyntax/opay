@@ -20,3 +20,4 @@ go.mod
 go.sum
 txt.txt
 thunder-tests/
+bankv1/
