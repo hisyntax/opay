@@ -53,18 +53,18 @@ type BankListDataBody struct {
 
 //bank transfer
 type TransferFund struct {
-	Reference string       `json:"reference"`
 	Amount    string       `json:"amount"`
-	Currency  string       `json:"currency"`
 	Country   string       `json:"country"`
-	Receiver  ReceiverBody `json:"receiver"`
+	Currency  string       `json:"currency"`
 	Reason    string       `json:"reason"`
+	Receiver  ReceiverBody `json:"receiver"`
+	Reference string       `json:"reference"`
 }
 
 type ReceiverBody struct {
-	Name              string `json:"name"`
-	BankCode          string `json:"bankCode"`
 	BankAccountNumber string `json:"bankAccountNumber"`
+	BankCode          string `json:"bankCode"`
+	Name              string `json:"name"`
 }
 
 type TransferFundResponse struct {

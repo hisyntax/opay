@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"opay/util"
 )
 
 func FundDisburstMent(baseUrl, merchantId, signature, reference, amount, name, bankCode, bankAccountNumber, reason string) (*TransferFundResponse, int, error) {
@@ -27,6 +28,10 @@ func FundDisburstMent(baseUrl, merchantId, signature, reference, amount, name, b
 	if jsonErr != nil {
 		return nil, 0, jsonErr
 	}
+	sKey := "OPAYPRV16527960033860.6728849208907292"
+
+	encode := util.Encoding(jsonReq, sKey)
+	fmt.Println(encode)
 
 	req, reqErr := http.NewRequest(method, url, bytes.NewBuffer(jsonReq))
 	if reqErr != nil {

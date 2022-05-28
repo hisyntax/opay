@@ -1,16 +1,28 @@
 package util
 
-//for all http request to opay server
-//to avoid multiple repitition
-// func HttpResuest(baseUrl, endpointUrl, reqMethod string) {
-// 	client := http.Client{}
-// 	url := fmt.Sprintf("%s/%s", baseUrl, endpointUrl)
-// 	method := reqMethod
+import (
+	"crypto/sha512"
+	"encoding/hex"
+)
 
-// 	req, err := http.NewRequest(method, url, nil)
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
+func Encoding(password []byte, salt string) string {
+	// Convert password string to byte slice
+	var passwordBytes = password
 
-// 	req.Header.Add("MerchantId", mId)
-// }
+	// Create sha-512 hasher
+	var sha512Hasher = sha512.New()
+
+	// Append salt to password
+	passwordBytes = append(passwordBytes, salt...)
+
+	// Write password bytes to the hasher
+	sha512Hasher.Write(passwordBytes)
+
+	// Get the SHA-512 hashed password
+	var hashedPasswordBytes = sha512Hasher.Sum(nil)
+
+	// Convert the hashed password to a hex string
+	var hashedPasswordHex = hex.EncodeToString(hashedPasswordBytes)
+
+	return hashedPasswordHex
+}
